@@ -27,46 +27,48 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Experimental.Rendering.Universal;
 
-public class DepthNormalsPass : ScriptableRenderPass {
+namespace HighContrastMode {
+    public class DepthNormalsPass : ScriptableRenderPass {
 
-    private Material material;
-    private RenderTargetHandle destinationHandle;
-    private List<ShaderTagId> shaderTags;
-    private FilteringSettings filteringSettings;
+        private Material material;
+        private RenderTargetHandle destinationHandle;
+        private List<ShaderTagId> shaderTags;
+        private FilteringSettings filteringSettings;
 
-    public DepthNormalsPass(Material material) : base() {
-        this.material = material;
-        // This contains a list of shader tags. The renderer will only render objects with
-        // materials containing a shader with at least one tag in this list
-        this.shaderTags = new List<ShaderTagId>() {
-            new ShaderTagId("DepthOnly"),
-            //new ShaderTagId("SRPDefaultUnlit"),
-            //new ShaderTagId("UniversalForward"),
-            //new ShaderTagId("LightweightForward"),
-        };
-        // Render opaque materials
-        this.filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
-        destinationHandle.Init("_DepthNormalsTexture");
-    }
+        public DepthNormalsPass(Material material) : base() {
+            this.material = material;
+            // This contains a list of shader tags. The renderer will only render objects with
+            // materials containing a shader with at least one tag in this list
+            this.shaderTags = new List<ShaderTagId>() {
+                new ShaderTagId("DepthOnly"),
+                //new ShaderTagId("SRPDefaultUnlit"),
+                //new ShaderTagId("UniversalForward"),
+                //new ShaderTagId("LightweightForward"),
+            };
+            // Render opaque materials
+            this.filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
+            destinationHandle.Init("_DepthNormalsTexture");
+        }
 
-    // Configure the pass by creating a temporary render texture and
-    // readying it for rendering
-    public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
-        cmd.GetTemporaryRT(destinationHandle.id, cameraTextureDescriptor, FilterMode.Point);
-        ConfigureTarget(destinationHandle.Identifier());
-        ConfigureClear(ClearFlag.All, Color.black);
-    }
+        // Configure the pass by creating a temporary render texture and
+        // readying it for rendering
+        public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
+            cmd.GetTemporaryRT(destinationHandle.id, cameraTextureDescriptor, FilterMode.Point);
+            ConfigureTarget(destinationHandle.Identifier());
+            ConfigureClear(ClearFlag.All, Color.black);
+        }
 
-    public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
+        public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
 
-        // Create the draw settings, which configures a new draw call to the GPU
-        var drawSettings = CreateDrawingSettings(shaderTags, ref renderingData, renderingData.cameraData.defaultOpaqueSortFlags);
-        // We cant to render all objects using our material
-        drawSettings.overrideMaterial = material;
-        context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref filteringSettings);
-    }
+            // Create the draw settings, which configures a new draw call to the GPU
+            var drawSettings = CreateDrawingSettings(shaderTags, ref renderingData, renderingData.cameraData.defaultOpaqueSortFlags);
+            // We cant to render all objects using our material
+            drawSettings.overrideMaterial = material;
+            context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref filteringSettings);
+        }
 
-    public override void FrameCleanup(CommandBuffer cmd) {
-        cmd.ReleaseTemporaryRT(destinationHandle.id);
+        public override void FrameCleanup(CommandBuffer cmd) {
+            cmd.ReleaseTemporaryRT(destinationHandle.id);
+        }
     }
 }

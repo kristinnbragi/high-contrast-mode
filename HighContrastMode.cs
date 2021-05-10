@@ -26,106 +26,109 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Experimental.Rendering.Universal;
 
-public class HighContrastMode : ScriptableRendererFeature {
+namespace HighContrastMode {
 
-    [System.Serializable]
-    public class Overrides {
-        [HideInInspector]
-        public Material overrideMaterial;
-        public FilterSettings filterSettings = new FilterSettings();
-        public LayerMask LayerMask;
-        public Color color;
-        [Range(0f,0.002f)]
-        public float OutlineThickness;
-        [Range(0f,15f)]
-        public float OutlineBrightness;
-        [Range(0f,1f)]
-        public float ShaderTransparency;
-        // public List<string> PassNames = new List<string>();
-    }
+    public class HighContrastMode : ScriptableRendererFeature {
 
-    [System.Serializable]
-    public class FilterSettings
-    {
-        public RenderQueueType RenderQueueType;
-        public LayerMask LayerMask;
-        public List<string> PassNames = new List<string>();
+        [System.Serializable]
+        public class Overrides {
+            [HideInInspector]
+            public Material overrideMaterial;
+            public FilterSettings filterSettings = new FilterSettings();
+            public LayerMask LayerMask;
+            public Color color;
+            [Range(0f,0.002f)]
+            public float OutlineThickness;
+            [Range(0f,15f)]
+            public float OutlineBrightness;
+            [Range(0f,1f)]
+            public float ShaderTransparency;
+            // public List<string> PassNames = new List<string>();
+        }
 
-        public FilterSettings()
+        [System.Serializable]
+        public class FilterSettings
         {
-            RenderQueueType = RenderQueueType.Opaque;
-            LayerMask = 0;
-        }
-    }
+            public RenderQueueType RenderQueueType;
+            public LayerMask LayerMask;
+            public List<string> PassNames = new List<string>();
 
-    public RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
-
-    private RenderObjectsPass renderObjectsPass;
-    private RenderObjectsPass renderObjectsPass2;
-    private List<RenderObjectsPass> renderObjectsPasses = new List<RenderObjectsPass>();
-    private Material myMaterial;
-
-    public List<Overrides> overrides = new List<Overrides>();
-    public int overrideMaterialPassIndex2 = 0;
-    public LayerMask layerMask1;
-
-    private DepthNormalsPass depthNormalsPass;
-
-    public override void Create() {
-
-        RenderObjects.FilterSettings filter = settings.filterSettings;
-
-        // Render Objects pass doesn't support events before rendering prepasses.
-        // The camera is not setup before this point and all rendering is monoscopic.
-        // Events before BeforeRenderingPrepasses should be used for input texture passes (shadow map, LUT, etc) that doesn't depend on the camera.
-        // These events are filtering in the UI, but we still should prevent users from changing it from code or
-        // by changing the serialized data.
-        if (settings.Event < RenderPassEvent.BeforeRenderingPrepasses)
-            settings.Event = RenderPassEvent.BeforeRenderingPrepasses;
-
-        renderObjectsPasses.Clear();
-        foreach (var item in overrides) {
-            item.overrideMaterial = new Material(Shader.Find("Shader Graphs/HighContrastShader"));
-            item.overrideMaterial.SetColor("_Color", item.color);
-            item.overrideMaterial.SetFloat("_OutlineThickness", item.OutlineThickness);
-            item.overrideMaterial.SetFloat("_OutlineBrightness", item.OutlineBrightness);
-            item.overrideMaterial.SetFloat("_ShaderTransparency", item.ShaderTransparency);
-
-            RenderObjectsPass roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, item.filterSettings.RenderQueueType, item.filterSettings.LayerMask, settings.cameraSettings);
-            roPass.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
-            roPass.overrideMaterial = item.overrideMaterial;
-
-            if (settings.overrideDepthState)
-                roPass.SetDetphState(settings.enableWrite, settings.depthCompareFunction);
-            if (settings.stencilSettings.overrideStencilState)
-                roPass.SetStencilState(settings.stencilSettings.stencilReference,
-                    settings.stencilSettings.stencilCompareFunction, settings.stencilSettings.passOperation,
-                    settings.stencilSettings.failOperation, settings.stencilSettings.zFailOperation);
-
-            renderObjectsPasses.Add(roPass);
+            public FilterSettings()
+            {
+                RenderQueueType = RenderQueueType.Opaque;
+                LayerMask = 0;
+            }
         }
 
+        public RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
 
-        // ***********
-        // NedMakesGames code snippets
-        // We will use the built-in renderer's depth normals texture shader
-        Material material = CoreUtils.CreateEngineMaterial("Hidden/Internal-DepthNormalsTexture");
-        this.depthNormalsPass = new DepthNormalsPass(material);
-        // Render after shadow caster, depth, etc. passes
-        depthNormalsPass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
-        // NedMakesGames snippets ends
-        // ***********
-    }
+        private RenderObjectsPass renderObjectsPass;
+        private RenderObjectsPass renderObjectsPass2;
+        private List<RenderObjectsPass> renderObjectsPasses = new List<RenderObjectsPass>();
+        private Material myMaterial;
 
-    public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
+        public List<Overrides> overrides = new List<Overrides>();
+        public int overrideMaterialPassIndex2 = 0;
+        public LayerMask layerMask1;
 
-        foreach (var pass in renderObjectsPasses) {
-            renderer.EnqueuePass(pass);
+        private DepthNormalsPass depthNormalsPass;
+
+        public override void Create() {
+
+            RenderObjects.FilterSettings filter = settings.filterSettings;
+
+            // Render Objects pass doesn't support events before rendering prepasses.
+            // The camera is not setup before this point and all rendering is monoscopic.
+            // Events before BeforeRenderingPrepasses should be used for input texture passes (shadow map, LUT, etc) that doesn't depend on the camera.
+            // These events are filtering in the UI, but we still should prevent users from changing it from code or
+            // by changing the serialized data.
+            if (settings.Event < RenderPassEvent.BeforeRenderingPrepasses)
+                settings.Event = RenderPassEvent.BeforeRenderingPrepasses;
+
+            renderObjectsPasses.Clear();
+            foreach (var item in overrides) {
+                item.overrideMaterial = new Material(Shader.Find("Shader Graphs/HighContrastShader"));
+                item.overrideMaterial.SetColor("_Color", item.color);
+                item.overrideMaterial.SetFloat("_OutlineThickness", item.OutlineThickness);
+                item.overrideMaterial.SetFloat("_OutlineBrightness", item.OutlineBrightness);
+                item.overrideMaterial.SetFloat("_ShaderTransparency", item.ShaderTransparency);
+
+                RenderObjectsPass roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, item.filterSettings.RenderQueueType, item.filterSettings.LayerMask, settings.cameraSettings);
+                roPass.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
+                roPass.overrideMaterial = item.overrideMaterial;
+
+                if (settings.overrideDepthState)
+                    roPass.SetDetphState(settings.enableWrite, settings.depthCompareFunction);
+                if (settings.stencilSettings.overrideStencilState)
+                    roPass.SetStencilState(settings.stencilSettings.stencilReference,
+                        settings.stencilSettings.stencilCompareFunction, settings.stencilSettings.passOperation,
+                        settings.stencilSettings.failOperation, settings.stencilSettings.zFailOperation);
+
+                renderObjectsPasses.Add(roPass);
+            }
+
+
+            // ***********
+            // NedMakesGames code snippets
+            // We will use the built-in renderer's depth normals texture shader
+            Material material = CoreUtils.CreateEngineMaterial("Hidden/Internal-DepthNormalsTexture");
+            this.depthNormalsPass = new DepthNormalsPass(material);
+            // Render after shadow caster, depth, etc. passes
+            depthNormalsPass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
+            // NedMakesGames snippets ends
+            // ***********
         }
 
+        public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
+
+            foreach (var pass in renderObjectsPasses) {
+                renderer.EnqueuePass(pass);
+            }
 
 
-        renderer.EnqueuePass(depthNormalsPass);
 
+            renderer.EnqueuePass(depthNormalsPass);
+
+        }
     }
 }
