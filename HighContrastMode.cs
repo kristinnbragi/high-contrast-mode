@@ -34,7 +34,6 @@ namespace HighContrastMode {
         public class Overrides {
             [HideInInspector]
             public Material overrideMaterial;
-            public FilterSettings filterSettings = new FilterSettings();
             public LayerMask LayerMask;
             public Color color;
             [Range(0f,0.002f)]
@@ -46,30 +45,13 @@ namespace HighContrastMode {
             // public List<string> PassNames = new List<string>();
         }
 
-        [System.Serializable]
-        public class FilterSettings
-        {
-            public RenderQueueType RenderQueueType;
-            public LayerMask LayerMask;
-            public List<string> PassNames = new List<string>();
-
-            public FilterSettings()
-            {
-                RenderQueueType = RenderQueueType.Opaque;
-                LayerMask = 0;
-            }
-        }
-
-        public RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
+        private RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
 
         private RenderObjectsPass renderObjectsPass;
         private RenderObjectsPass renderObjectsPass2;
         private List<RenderObjectsPass> renderObjectsPasses = new List<RenderObjectsPass>();
-        private Material myMaterial;
 
         public List<Overrides> overrides = new List<Overrides>();
-        public int overrideMaterialPassIndex2 = 0;
-        public LayerMask layerMask1;
 
         private DepthNormalsPass depthNormalsPass;
 
@@ -93,7 +75,7 @@ namespace HighContrastMode {
                 item.overrideMaterial.SetFloat("_OutlineBrightness", item.OutlineBrightness);
                 item.overrideMaterial.SetFloat("_ShaderTransparency", item.ShaderTransparency);
 
-                RenderObjectsPass roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, item.filterSettings.RenderQueueType, item.filterSettings.LayerMask, settings.cameraSettings);
+                RenderObjectsPass roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, RenderQueueType.Opaque, item.LayerMask, settings.cameraSettings);
                 roPass.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
                 roPass.overrideMaterial = item.overrideMaterial;
 
