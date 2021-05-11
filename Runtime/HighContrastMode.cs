@@ -45,10 +45,11 @@ namespace HighContrastMode {
             // public List<string> PassNames = new List<string>();
         }
 
-        public RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
+        private RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
 
+        private RenderObjectsPass renderObjectsPass;
+        private RenderObjectsPass renderObjectsPass2;
         private List<RenderObjectsPass> renderObjectsPasses = new List<RenderObjectsPass>();
-        // private RenderObjectsPass test_roPass;
 
         public List<Overrides> overrides = new List<Overrides>();
 
@@ -68,18 +69,13 @@ namespace HighContrastMode {
 
             renderObjectsPasses.Clear();
             foreach (var item in overrides) {
-                var shader = Shader.Find("Shader Graphs/HighContrastShader");
-                // var shader = Shader.Find("Universal Render Pipeline/Unlit");
-                // var shaderPath = "Shader Graphs/HighContrastShader";
-                item.overrideMaterial = new Material(shader);
-                // Debug.Log(item.overrideMaterial);
-                // Debug.Log(item.overrideMaterial.GetType());
+                item.overrideMaterial = new Material(Shader.Find("Shader Graphs/HighContrastShader"));
                 item.overrideMaterial.SetColor("_Color", item.color);
                 item.overrideMaterial.SetFloat("_OutlineThickness", item.OutlineThickness);
                 item.overrideMaterial.SetFloat("_OutlineBrightness", item.OutlineBrightness);
                 item.overrideMaterial.SetFloat("_ShaderTransparency", item.ShaderTransparency);
 
-                RenderObjectsPass roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, settings.filterSettings.RenderQueueType, item.LayerMask, settings.cameraSettings);
+                RenderObjectsPass roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, RenderQueueType.Opaque, item.LayerMask, settings.cameraSettings);
                 roPass.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
                 roPass.overrideMaterial = item.overrideMaterial;
 
@@ -93,18 +89,6 @@ namespace HighContrastMode {
                 renderObjectsPasses.Add(roPass);
             }
 
-            // test_roPass = new RenderObjectsPass(settings.passTag, settings.Event, filter.PassNames, settings.filterSettings.RenderQueueType, settings.filterSettings.LayerMask, settings.cameraSettings);
-            // test_roPass.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
-            // test_roPass.overrideMaterial = settings.overrideMaterial;
-
-            // if (settings.overrideDepthState)
-            //     test_roPass.SetDetphState(settings.enableWrite, settings.depthCompareFunction);
-            // if (settings.stencilSettings.overrideStencilState)
-            //     test_roPass.SetStencilState(settings.stencilSettings.stencilReference,
-            //         settings.stencilSettings.stencilCompareFunction, settings.stencilSettings.passOperation,
-            //         settings.stencilSettings.failOperation, settings.stencilSettings.zFailOperation);
-
-            // renderObjectsPasses.Add(test_roPass);
 
             // ***********
             // NedMakesGames code snippets
@@ -123,7 +107,6 @@ namespace HighContrastMode {
                 renderer.EnqueuePass(pass);
             }
 
-            // renderer.EnqueuePass(test_roPass);
 
 
             renderer.EnqueuePass(depthNormalsPass);
