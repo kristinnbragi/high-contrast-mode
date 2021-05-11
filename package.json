@@ -1,0 +1,18 @@
+{
+  "name": "com.med601.high-contrast-mode",
+  "version": "1.0.0",
+  "displayName": "High Contrast Mode",
+  "description": "The High Contrast Mode package can be helpful for making your project accessible to people with low-vision. High Contrast Mode is easy to implement and saves developers time when designing for accessibility. \n\nHigh Contrast Mode expands the renderer to enhance certain objects in the scene (e.g. enemies, allies, collectables). The package uses a custom render feature and shader graph, which blend rendered objects with HighContrastShader.shadergraph with adjustable properties. The custom render feature uses layers to identify objects: all objects assigned to the same layer will have the same color.",
+  "unity": "2020.3",
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "10.4.0"
+  },
+  "keywords": [
+    "accessibility",
+    "high contrast",
+    "shaders"
+  ],
+  "author": {
+    "name": "Medialogy CPH 601"
+  }
+}
