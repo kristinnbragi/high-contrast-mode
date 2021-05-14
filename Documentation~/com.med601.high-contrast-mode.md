@@ -1,2 +1,1 @@
-THIS IS DOCUMENTATION
-TESTING
+Refer to "documentation.pdf" for detailed documentation
