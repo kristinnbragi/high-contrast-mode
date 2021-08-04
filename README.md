@@ -15,8 +15,10 @@ The package uses a custom render feature and shader graph, which blend rendered 
 The custom render feature uses layers to identify objects: all objects assigned to the same layer will have the same color.
 
 *Examples:*
+
 ![Image][1]
-PICTURES HERE
+
+![Image][2]
 
 ## Requirements
 
@@ -54,7 +56,7 @@ The number of enhanced groups of objects can be specified in the **Overrides** v
 Each of these groups are represented as array list *Elements*. 
 Every *Element* contains *Layer Mask, Color, Outline Thickness, Outline Brightness* and *Shader Transparency.*
 
-PICTURE HERE
+![Image][3]
 
 *Layer mask* - specify the layer of the assigned object which should be changed.
 
@@ -75,4 +77,6 @@ On more detailed information about how to work with layers in Unity please refer
 
 
 
-[1]:https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.industrialempathy.com%2Fposts%2Fimage-optimizations%2F&psig=AOvVaw3zYaEhVuB1kimNiY2ZWz3d&ust=1628185948128000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLioy7r3l_ICFQAAAAAdAAAAABAD
+[1]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image3.png
+[2]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image2.png
+[3]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image1.png
