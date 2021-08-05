@@ -71,10 +71,6 @@ Every *Element* contains *Layer Mask, Color, Outline Thickness, Outline Brightne
 On more detailed information about how to work with layers in Unity please refer to the official Unity manual 
 (https://docs.unity3d.com/Manual/Layers.html)
 
-## Contact
-
-- what to put here? 
-
 
 
 [1]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image3.png
