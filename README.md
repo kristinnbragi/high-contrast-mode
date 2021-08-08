@@ -40,7 +40,7 @@ The High Contrast Mode version 1.0.0 includes the following know limitations:
 
 ## Installing High Contrast Mode
 
-It is recommended to install the High Contrast Mode package from disk. 
+Download and install the High Contrast Mode package locally from disk. 
 On how to install packages, please refer to the official Unity Manual
 (https://docs.unity3d.com/Manual/upm-ui-local.html)
 
