@@ -71,7 +71,9 @@ Every *Element* contains *Layer Mask, Color, Outline Thickness, Outline Brightne
 On more detailed information about how to work with layers in Unity please refer to the official Unity manual 
 (https://docs.unity3d.com/Manual/Layers.html)
 
+## Sample Scene
 
+Download and try a sample scene with high contrast mode applied from the repo https://github.com/kgardarsson/high-contrast-mode-SAMPLE-SCENE.
 
 [1]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image3.png
 [2]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image2.png
