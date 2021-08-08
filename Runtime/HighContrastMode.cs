@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2021 NedMakesGames
+// Copyright (c) 2021 Kristinn Bragi Garðarsson
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
@@ -42,7 +42,6 @@ namespace HighContrastMode {
             public float OutlineBrightness;
             [Range(0f,1f)]
             public float ShaderTransparency;
-            // public List<string> PassNames = new List<string>();
         }
 
         private RenderObjects.RenderObjectsSettings settings = new RenderObjects.RenderObjectsSettings();
@@ -59,17 +58,14 @@ namespace HighContrastMode {
 
             RenderObjects.FilterSettings filter = settings.filterSettings;
 
-            // Render Objects pass doesn't support events before rendering prepasses.
-            // The camera is not setup before this point and all rendering is monoscopic.
-            // Events before BeforeRenderingPrepasses should be used for input texture passes (shadow map, LUT, etc) that doesn't depend on the camera.
-            // These events are filtering in the UI, but we still should prevent users from changing it from code or
-            // by changing the serialized data.
             if (settings.Event < RenderPassEvent.BeforeRenderingPrepasses)
                 settings.Event = RenderPassEvent.BeforeRenderingPrepasses;
                 
 
             renderObjectsPasses.Clear();
             foreach (var item in overrides) {
+
+                // Make high-contrast material for each contrast layer
                 item.overrideMaterial = new Material(Shader.Find("Shader Graphs/HighContrastShader"));
                 item.overrideMaterial.SetColor("_Color", item.color);
                 item.overrideMaterial.SetFloat("_OutlineThickness", item.OutlineThickness);
@@ -91,15 +87,9 @@ namespace HighContrastMode {
             }
 
 
-            // ***********
-            // NedMakesGames code snippets
-            // We will use the built-in renderer's depth normals texture shader
             Material material = CoreUtils.CreateEngineMaterial("Hidden/Internal-DepthNormalsTexture");
             this.depthNormalsPass = new DepthNormalsPass(material);
-            // Render after shadow caster, depth, etc. passes
             depthNormalsPass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
-            // NedMakesGames snippets ends
-            // ***********
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
