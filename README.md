@@ -1,6 +1,6 @@
 # High Contrast Mode Unity package
 
-This High Contrast Mode Unity package was created as a Medialogy [Bachelor's project]([url](https://drive.google.com/drive/folders/1vaJgJcnrd-k6hPbtmeScZhYMkEVL6G5O?usp=share_link)). 
+This High Contrast Mode Unity package was created as a Medialogy [Bachelor's project](https://drive.google.com/drive/folders/1vaJgJcnrd-k6hPbtmeScZhYMkEVL6G5O?usp=share_link). 
 The goal of this project was to simplify the process developers have to go through to implement for accessibility.
 We propose a Unity package meant to ease the implementation of a high-contrast accessibility feature for digital games, which is mostly benefitial for people with low vision.
 It is an open-source project, so everybody is welcome to contribute and expand upon accessibility features included. 
