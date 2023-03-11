@@ -41,8 +41,7 @@ The High Contrast Mode version 1.0.0 includes the following know limitations:
 ## Installing High Contrast Mode
 
 Download and install the High Contrast Mode package locally from disk. 
-On how to install packages, please refer to the official Unity Manual
-(https://docs.unity3d.com/Manual/upm-ui-local.html)
+On how to install packages, please refer to the official [Unity Manual](https://docs.unity3d.com/Manual/upm-ui-local.html)
 
 ## Using High Contrast Mode
 
@@ -68,8 +67,7 @@ Every *Element* contains *Layer Mask, Color, Outline Thickness, Outline Brightne
 
 *Shader transparency* - specify the amount of blending between the rendered objects and color layer.
 
-On more detailed information about how to work with layers in Unity please refer to the official Unity manual 
-(https://docs.unity3d.com/Manual/Layers.html)
+On more detailed information about how to work with layers in Unity please refer to the official [Unity manual](https://docs.unity3d.com/Manual/Layers.html)
 
 ## Sample Scene
 
