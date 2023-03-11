@@ -49,7 +49,7 @@ On how to install packages, please refer to the official Unity Manual
 The High Contrast Mode is applied as a renderer feature in *Forward Renderer Data* which is part of *Pipeline Asset*.
 If the project does not have any *Pipeline Asset* you can create a new one by going to *Assets -> Create -> Rendering -> Universal Render Pipeline -> Pipeline Asset (Forward Renderer).* 
 This will automatically create *Forward Renderer Data.*
-For more detailed information on custom render pipeline refer to official Unity Manual (https://docs.unity3d.com/Manual/srp-custom.html)
+For more detailed information on custom render pipeline refer to official [Unity Manual](https://docs.unity3d.com/Manual/srp-custom.html)
 In the generated *Forward Renderer Data* press the button “Add Renderer Feature” and choose **High Contrast Mode** from the list of dropdown menu items.
 
 The number of enhanced groups of objects can be specified in the **Overrides** value. 
@@ -73,7 +73,7 @@ On more detailed information about how to work with layers in Unity please refer
 
 ## Sample Scene
 
-Download and try a sample scene with high contrast mode applied from the repo https://github.com/kgardarsson/high-contrast-mode-SAMPLE-SCENE.
+Download and try the [sample scene repo](https://github.com/kgardarsson/high-contrast-mode-SAMPLE-SCENE) with high contrast mode applied.
 
 [1]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image3.png
 [2]:https://github.com/kgardarsson/high-contrast-mode/blob/main/images/image2.png
